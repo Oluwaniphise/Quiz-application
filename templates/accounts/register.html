@@ -5,10 +5,7 @@
 {% block content %}
 <head>
     <style>
-        body{
-            background:rgba(0, 255, 42, 0.512);
-          }
-          .container{
+    .container{
           display:flex;
           flex-direction:column;
           align-items: center;
@@ -16,7 +13,7 @@
           height:100vh;
         }
         .card{
-          box-shadow:2px 4px 5px rgba(0, 255, 42, 0.712);
+          box-shadow:2px 4px 5px  #fff;
         }
     </style>
 </head>
@@ -24,9 +21,8 @@
 
 <div class="container">
 <div class="col-md-6">
-    <h5>Welcome, register to take your test and track your progress.</h5>
-    <div class="card">
-        <div class="card-body">
+    <h5 class="text-center">Welcome! Fill in the form to register.</h5>
+    
      <form action="{% url 'register'  %}" method='POST'>
         {% csrf_token %}
     {{form|crispy}}
@@ -40,8 +36,8 @@
 </form>
 </div>
 </div>
-</div>
-</div>
+
+
 
 
 {% endblock %}

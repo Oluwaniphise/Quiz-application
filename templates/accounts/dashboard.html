@@ -14,8 +14,10 @@
 </head>
 
 {% if request.user.is_authenticated  %}
+<div class="container">
 <p>Hello, {{request.user.first_name}}</p>
 <p>Welcome! You can now take your test.</p>
-<p><a class='btn btn-lg btn-warning' href="{% url 'questions' %}">Click here to take test</a></p>
+<p><a class='btn btn-lg btn-success' href="{% url 'questions' %}">Click here to take test</a></p>
+</div>
 {% endif %}
 {% endblock %}

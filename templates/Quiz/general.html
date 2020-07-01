@@ -2,42 +2,17 @@
 {% block content %}
 
 <div class="container">
-    <div class="row mt-3">
-        <div class=" col-xl-12">
-      
-     <form action="{% url 'questions' %}" method="POST">
-         {% csrf_token %}
-         <div class="card">
-                <div class="card-header">
-                    <h4>BIO1O1</h4>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                  
-                       {% for question  in questions  %}
-                       
-                       <li class="list-group-item">
-                           <strong>{{question.id}}. {{question.text}}</strong>
-                           {% for choice in choices %}
-                           <ul>
-                               <li><input type="radio" name="{{question.id}}" value="{{choice.choice_text}}"> {{choice.choice_text}}</li>
-                           </ul>
-                           {% endfor %}
-                           <span class="pull-right">
-                        </li>
-                       
-                    {% endfor %}
-                   </ul>
-                   </div>
-    
-        </div>
-     <button class="btn btn-md btn-outline-info" >Submit</button> 
-    </form>
-    
-      
-    
-    </div>
-    </div>
+    {% for question in questions %}
+
+    <ul>{{question.id}}. {{question.text}}
+        {% for choice in choices %}
+        <ul class="list-unstyled">
+            <li><input type="radio" name="{{question.id}}" value="{{choice}}">{{choice}}</li>
+        </ul>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</div>
     
 
 {% endblock %}
