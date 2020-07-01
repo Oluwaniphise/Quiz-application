@@ -1,0 +1,21 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<head>
+    <style>
+         .container{
+            display:flex;
+            flex-direction:column;
+            align-items: center;
+            justify-content: center; 
+            height:100vh;
+          } 
+    </style>
+</head>
+
+{% if request.user.is_authenticated  %}
+<p>Hello, {{request.user.first_name}}</p>
+<p>Welcome! You can now take your test.</p>
+<p><a class='btn btn-lg btn-warning' href="{% url 'questions' %}">Click here to take test</a></p>
+{% endif %}
+{% endblock %}
