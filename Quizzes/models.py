@@ -34,4 +34,9 @@ class Choice(models.Model):
     def __str__(self):
         return self.choice_text
 
+class UserChoice(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    choice_question = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    is_correct = models.BooleanField()
+
 
