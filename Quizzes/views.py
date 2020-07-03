@@ -40,6 +40,7 @@ def course_quiz(request, course_title, question_id):
     options = question.transaction_set.all() # get the options for the question
 
     context = {
-        'user': current_user, 'course': course, 'question': 'question'
+        'user': current_user, 'course': course, 
+        'question': 'question', 'options': options
     }
     return render(request, 'Quiz/course-quiz.html', context)
