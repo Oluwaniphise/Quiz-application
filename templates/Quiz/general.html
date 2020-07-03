@@ -1,17 +1,38 @@
 {% extends 'accounts/base.html' %}
+{% block title %}Questions{% endblock %}
 {% block content %}
-
-<div class="container">
-    {% for question in questions %}
-
-    <ul>{{question.id}}. {{question.text}}
-        {% for choice in choices %}
+<head>
+    <style>
+        .container{
+            display:flex;
+            flex-direction:column;
+            justify-content: center; 
+            height:100vh;
+          }
+          
+    </style>
+</head>
+<div class="container p-5">
+   <div class="card">
+       <div class="card-body">
+    <form action="{% url 'questions' questions.id %}" method="POST">
+        {% csrf_token %}
+    <ul>{{questions.id}}. {{questions.text}}
+       
+     {% for choice in questions.choice_set.all %}
         <ul class="list-unstyled">
-            <li><input type="radio" name="{{question.id}}" value="{{choice}}">{{choice}}</li>
+            <li><input type="radio" name="choice" value="{{choice.choice_text}}">{{choice.choice_text}}</li>
         </ul>
-        {% endfor %}
+ {% endfor %}
     </ul>
-    {% endfor %}
+   <span>
+    <button class="btn btn-md btn-outline-info" type="submit">Submit</button>
+   <button class="btn btn-md btn-default"><a href="{% url 'questions' questions.id %}" >Next</a></button>
+</span>
+</form>
+    
+</div>
+</div>
 </div>
     
 

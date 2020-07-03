@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '77%2h7j@$%$vt10s3pb=9)y_99)=i+lmmj8kr82_g-4nx3=#_i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False  
 
 ALLOWED_HOSTS = ['your-quiz-test.herokuapp.com', 'localhost', '127.0.0.1']
 

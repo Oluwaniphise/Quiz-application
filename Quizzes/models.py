@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Subject(models.Model):
@@ -27,9 +28,21 @@ class Question(models.Model):
         return self.text
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=100)
-    answer = models.BooleanField(default=False)
+    choice = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=50)
 
     def __str__(self):
         return self.choice_text
+
+class Answer(models.Model):
+    question_answer = models.ForeignKey(Question, on_delete=models.CASCADE)
+    correct_answer = models.BooleanField(default=False)
+    # def __str__(self):
+    #     return self.correct_answer
+
+class UserChoice(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user_choice_text = models.CharField(max_length=50)
+    
+

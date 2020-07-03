@@ -4,9 +4,9 @@ from .models import Question, Choice
 
 # Create your views here.
 
-def questions(request):
-    questions = Question.objects.all()
-    choices = Choice.objects.all()
+def questions(request, que_id):
+    questions = Question.objects.get(pk=que_id)
+    choices = Choice.objects.get(pk=que_id)
     
     context = {
         'questions':questions, 'choices':choices
