@@ -3,7 +3,7 @@
 
 <div class="container">
     <h1>Welcome {{ user }}</h1>
-    <p><a class='btn btn-lg btn-success' href="{% url 'course-quiz' %}">Click here to take test</a></p>
+    <p><a class='btn btn-lg btn-success' href="{% url 'course-quiz' course.title 1 %}">Click here to take test</a></p>
     </div>
 </div>
 {% endblock %}

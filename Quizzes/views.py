@@ -26,7 +26,7 @@ def course_detail(request, course):
     context = {
         'user': current_user, 'course': course
     }
-    return render(request, 'Quiz/course-quiz.html', context)
+    return render(request, 'Quiz/course-detail.html', context)
 
 def course_quiz(request, course_title, question_id):
     """
@@ -36,11 +36,11 @@ def course_quiz(request, course_title, question_id):
     """
     current_user = request.user
     course = Course.objects.get(title=course_title) # get the course from the course_id
-    question = course.transaction_set.filter(id=question_id) # get the questions through course
-    options = question.transaction_set.all() # get the options for the question
+    question = course.question_set.get(id=question_id) # get the questions through course
+    options = question.choice_set.all() # get the options for the question
 
     context = {
         'user': current_user, 'course': course, 
-        'question': 'question', 'options': options
+        'question': question, 'options': options
     }
     return render(request, 'Quiz/course-quiz.html', context)
