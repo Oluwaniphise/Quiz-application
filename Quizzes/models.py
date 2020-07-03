@@ -1,18 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-class Subject(models.Model):
-    title = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=50, unique=True)
+# Subject model is redundant for now, course question and choice should do...
 
-    class Meta:
-        ordering = ['title']
+"""
 
-    def __str__(self):
-        return self.title
+"""
 
 class Course(models.Model):
-    subject = models.ForeignKey(Subject, related_name='courses', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     class Meta:
@@ -36,7 +32,10 @@ class Choice(models.Model):
 
 class UserChoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    choice_question = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    user_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
     is_correct = models.BooleanField()
+
+    def __str__(self):
+        return "{0} is {1}".format(self.user_choice, self.is_correct)
 
 
