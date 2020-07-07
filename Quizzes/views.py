@@ -28,7 +28,7 @@ def course_detail(request, course):
     }
     return render(request, 'Quiz/course-detail.html', context)
 
-def course_quiz(request, course_title, question_id):
+def course_quiz(request, course_title):
     """
     site_url/{{course}}/{{question_number}}
     Get the current user, the questions and choices
@@ -36,11 +36,14 @@ def course_quiz(request, course_title, question_id):
     """
     current_user = request.user
     course = Course.objects.get(title=course_title) # get the course from the course_id
-    question = course.question_set.get(id=question_id) # get the questions through course
+    question = course.question_set.all() # get the questions through course
     options = question.choice_set.all() # get the options for the question
+
+    user_choice = request.POST.get('choice')
+    print(user_choice)
 
     context = {
         'user': current_user, 'course': course, 
-        'question': question, 'options': options
+        'question': question, 
     }
     return render(request, 'Quiz/course-quiz.html', context)

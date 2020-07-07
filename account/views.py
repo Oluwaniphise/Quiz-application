@@ -30,7 +30,7 @@ def user_login(request):
             login(request, user)
             return redirect('dashboard')
         else:
-            messages.info(request, f'You have not register')
+            messages.info(request, f'You have not registered')
        
     return render(request, 'accounts/login.html')
 

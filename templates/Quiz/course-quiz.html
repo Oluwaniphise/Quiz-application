@@ -1,17 +1,27 @@
 {% extends 'accounts/base.html' %}
 {% block content %}
 
-<div class="container">
-    Welcome {{ user }}
 
-    <h4>{{ question }}</h4>
-    <br>
+
+<div class="container">
+
+    <!-- <h4>Welcome {{ user }}</h4> -->
+    {% for q in question %}
+
+    <h4>{{q.id}}. {{ q.text }}</h4>
+    
+    <form action="" method='POST'>
+        {% csrf_token %}
     <ul class="list-unstyled">
         {% for option in options %}
-        <li><input type="radio" name="{{ question.id }}" value="{{ option }}">{{ option }}</li>
+        <li><input type="radio" name="choice" value="{{ option }}">{{ option }}</li>
         {% endfor %}
     </ul>
+    {% endfor %}
+    <button type="submit" class="btn btn-md btn-outline-info">Save</button>
+</form>
 </div>
+
 
 
 {% endblock %}
