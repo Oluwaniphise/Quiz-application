@@ -8,13 +8,13 @@
     <!-- <h4>Welcome {{ user }}</h4> -->
     {% for q in question %}
 
-    <h4>{{q.id}}. {{ q.text }}</h4>
+    <h5>{{q.id}}. {{ q.text }}</h5>
     
     <form action="" method='POST'>
         {% csrf_token %}
     <ul class="list-unstyled">
-        {% for option in options %}
-        <li><input type="radio" name="choice" value="{{ option }}">{{ option }}</li>
+        {% for option in options.question_set.all %}
+        <li><input type="radio" name="{{ question.id }}" value="{{ option }}">{{ option }}</li>
         {% endfor %}
     </ul>
     {% endfor %}
