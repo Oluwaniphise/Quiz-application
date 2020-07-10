@@ -1,0 +1,54 @@
+{% extends 'accounts/base.html' %}
+{% block title %}{{course.title}} | {{user}} {% endblock %}
+{% block content %}
+
+<head>
+    <style>
+        .btn, form li {
+            margin-left: 1.3rem;
+        }
+
+        .pagination li {
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+
+
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                
+                    {% for q in question %}
+                    <h5>{{q.id}}. {{ q.text }}</h5>
+                    <form action="" method='POST'>
+                        {% csrf_token %}
+                        <ol class="list-unstyled">
+                            {% for option in q.choice_set.all %}
+                            <li><input type="radio" name="{{ q.id }}" value="{{ option }}"> {{ option }}</li>
+                            {% endfor %}
+                        </ol>
+                        {% endfor %}
+                
+                <button type="submit" class="btn btn-sm btn-outline-info">Save</button>
+                </form>
+
+                <div class="pt-2">
+                    <ol class="pagination">
+                        {% for i in paginator.page_range %}
+                        <li class="page-item">
+                            <a href="?page={{i}}" class="page-link">{{i}}</a>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
