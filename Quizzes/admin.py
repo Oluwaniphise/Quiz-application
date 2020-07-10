@@ -1,9 +1,5 @@
 from django.contrib import admin
-<<<<<<< HEAD
-from .models import Subject, Course, Question, UserChoice, Answer, Choice
-=======
 from .models import Course, Question, Choice
->>>>>>> Quiz-application-dev
 
 # Register your models here.
 

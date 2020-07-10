@@ -29,19 +29,6 @@ class Choice(models.Model):
     def __str__(self):
         return self.choice_text
 
-<<<<<<< HEAD
-class Answer(models.Model):
-    question_answer = models.ForeignKey(Question, on_delete=models.CASCADE)
-    correct_answer = models.BooleanField(default=False)
-    # def __str__(self):
-    #     return self.correct_answer
-
-class UserChoice(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user_choice_text = models.CharField(max_length=50)
-    
-=======
 class UserChoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
@@ -50,5 +37,4 @@ class UserChoice(models.Model):
     def __str__(self):
         return "{0} is {1}".format(self.user_choice, self.is_correct)
 
->>>>>>> Quiz-application-dev
 

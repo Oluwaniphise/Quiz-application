@@ -22,11 +22,6 @@ def course_detail(request, course):
     return render(request, 'Quiz/course-detail.html', context)
 
 
-<<<<<<< HEAD
-def questions(request, que_id):
-    questions = Question.objects.get(pk=que_id)
-    choices = Choice.objects.get(pk=que_id)
-=======
 #for the courses quiz
 def course_quiz(request, course_title):
     """
@@ -37,7 +32,6 @@ def course_quiz(request, course_title):
     current_user = request.user
     course = Course.objects.get(title=course_title) # get the course from the course_id
     question = course.question_set.all() # get the questions through course
->>>>>>> Quiz-application-dev
     
     #for the page pagination
     paginator = Paginator(question, 1)
