@@ -26,24 +26,24 @@
                     <h5>{{q.id}}. {{ q.text }}</h5>
                     <form action="" method='POST'>
                         {% csrf_token %}
-                        <ul class="list-unstyled">
+                        <ol class="list-unstyled">
                             {% for option in q.choice_set.all %}
                             <li><input type="radio" name="{{ q.id }}" value="{{ option }}"> {{ option }}</li>
                             {% endfor %}
-                        </ul>
+                        </ol>
                         {% endfor %}
                 
                 <button type="submit" class="btn btn-sm btn-outline-info">Save</button>
                 </form>
 
                 <div class="pt-2">
-                    <ul class="pagination">
+                    <ol class="pagination">
                         {% for i in paginator.page_range %}
                         <li class="page-item">
                             <a href="?page={{i}}" class="page-link">{{i}}</a>
                         </li>
                         {% endfor %}
-                    </ul>
+                    </ol>
                 </div>
             </div>
         </div>
