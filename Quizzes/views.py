@@ -52,8 +52,3 @@ def course_quiz(request, course_title):
 
 
 
-class QuestionListView(ListView):
-    model = Question
-    template_name = 'Quiz/course-quiz.html'
-    context_object_name = 'question_list'
-    paginate_by = 2
