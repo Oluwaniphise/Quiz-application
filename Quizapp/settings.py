@@ -11,24 +11,21 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import environ
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env = environ.Env(
-    DEBUG=(bool, True),
- )
-env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = '3kfjdlsj8lsdfjlskfjlaj8skdfjsdfl*382kd'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'your-quiz-test.herokuapp.com']
 # ALLOWED_HOSTS = tuple(env.str('ALLOWED_HOSTS', default=[]))

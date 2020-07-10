@@ -1,16 +1,9 @@
 from django.shortcuts import render
-
+from django.views.generic.list import ListView
 from .models import Question, Choice, Course
+from django.core.paginator import Paginator, EmptyPage
 
-def questions(request):
-    questions = Question.objects.all()
-    choices = Choice.objects.all()
-    
-    context = {
-        'questions':questions, 'choices':choices
-    }
-    return render(request, 'Quiz/general.html', context)
-
+# for the courses list
 def courses_list(request):
     all_course = Course.objects.all()
     context = {
@@ -18,6 +11,8 @@ def courses_list(request):
     }
     return render(request, 'Quiz/course-list.html', context)
 
+
+#for the courses detail
 def course_detail(request, course):
     current_user = request.user
     course = Course.objects.get(title=course)
@@ -26,22 +21,39 @@ def course_detail(request, course):
     }
     return render(request, 'Quiz/course-detail.html', context)
 
+
+#for the courses quiz
 def course_quiz(request, course_title):
     """
-    site_url/{{course}}/{{question_number}}
+    site_url/{{course}}/questions/
     Get the current user, the questions and choices
     Render them in context
     """
     current_user = request.user
     course = Course.objects.get(title=course_title) # get the course from the course_id
     question = course.question_set.all() # get the questions through course
-    options = Choice.objects.all() # get the options for the question
-
-    # user_choice = request.POST.get('choice')
+    
+    #for the page pagination
+    paginator = Paginator(question, 1)
+    page_num = request.GET.get('page', 1)
+    try:
+        page_obj = paginator.page(page_num)
+    except EmptyPage:
+        page_obj = paginator.page(1)
+    # user_choice = request.POST.get('q.id')
     # print(user_choice)
 
     context = {
         'user': current_user, 'course': course, 
-        'question': question, 'options':options
+        'question':page_obj, 'paginator':paginator
     }
     return render(request, 'Quiz/course-quiz.html', context)
+
+
+
+
+class QuestionListView(ListView):
+    model = Question
+    template_name = 'Quiz/course-quiz.html'
+    context_object_name = 'question_list'
+    paginate_by = 2
