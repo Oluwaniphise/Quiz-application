@@ -40,12 +40,13 @@ def course_quiz(request, course_title):
         page_obj = paginator.page(page_num)
     except EmptyPage:
         page_obj = paginator.page(1)
-    # user_choice = request.POST.get('q.id')
-    # print(user_choice)
+    user_choice = request.POST.get('q.id')
+    print(user_choice)
 
     context = {
         'user': current_user, 'course': course, 
-        'question':page_obj, 'paginator':paginator
+        'question':page_obj, 'paginator':paginator, 
+        'page_num':int(page_num)
     }
     return render(request, 'Quiz/course-quiz.html', context)
 

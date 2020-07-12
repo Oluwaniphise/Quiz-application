@@ -4,21 +4,21 @@
 
 <head>
     <style>
-        .btn, form li {
+       /* .btn, form li {
             margin-left: 1.3rem;
         }
 
         .pagination li {
-            margin-left: 0.5rem;
-        }
+            margin-left: 0.1rem;
+        } */
     </style>
 </head>
 
 
 
 <div class="container">
-    <div class="d-flex justify-content-center">
-    <div class="col-lg-8">
+    <!-- <div class="col-lg-8"> -->
+        <div class="vh-100 d-flex justify-content-center align-items-center">
         <div class="card">
             <div class="card-body">
                 
@@ -37,9 +37,9 @@
                 </form>
 
                 <div class="pt-2">
-                    <ol class="pagination">
+                    <ol class="pagination pagination-sm">
                         {% for i in paginator.page_range %}
-                        <li class="page-item">
+                        <li class="page-item {% if i == page_num  %} active {% endif %}">
                             <a href="?page={{i}}" class="page-link">{{i}}</a>
                         </li>
                         {% endfor %}
@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-</div>
-</div>
+<!-- </div>--> 
+</div> 
 
 {% endblock %}
