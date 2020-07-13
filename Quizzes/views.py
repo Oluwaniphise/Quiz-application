@@ -31,21 +31,33 @@ def course_quiz(request, course_title):
     """
     current_user = request.user
     course = Course.objects.get(title=course_title) # get the course from the course_id
-    question = course.question_set.all() # get the questions through course
+    questions = course.question_set.all() # get the questions through course
     
     #for the page pagination
-    paginator = Paginator(question, 1)
+    paginator = Paginator(questions, 1)
     page_num = request.GET.get('page', 1)
     try:
         page_obj = paginator.page(page_num)
     except EmptyPage:
         page_obj = paginator.page(1)
-    user_choice = request.POST.get('q.id')
-    print(user_choice)
+
+    # for the user selection
+    try:
+        ## find a way to get the current question from the page or pagination
+        # user_choice = question.choice_set.get(pk=request.POST['choice']) 
+        ## save the user's choice
+        pass
+    except (KeyError, Choice.DoesNotExist):
+        # Display the question form again
+        # this may be buggy as it's not tested.
+        return render(request, 'Quiz/course-detail.html', {
+            'question': page_obj,
+            'error_message': "Try selecting an option!",
+        })
 
     context = {
         'user': current_user, 'course': course, 
-        'question':page_obj, 'paginator':paginator, 
+        'questions':page_obj, 'paginator':paginator, 
         'page_num':int(page_num)
     }
     return render(request, 'Quiz/course-quiz.html', context)
