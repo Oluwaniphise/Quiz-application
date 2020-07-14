@@ -4,7 +4,7 @@
 
 <head>
     <style>
-       /* .btn, form li {
+        /* .btn, form li {
             margin-left: 1.3rem;
         }
 
@@ -18,23 +18,21 @@
 
 <div class="container">
     <!-- <div class="col-lg-8"> -->
-        <div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="vh-100 d-flex justify-content-center align-items-center">
         <div class="card">
             <div class="card-body">
-                
-                    {% for q in question %}
-                    <h5>{{q.id}}. {{ q.text }}</h5>
-                    <form action="" method='POST'>
-                        {% csrf_token %}
-                        <ol class="list-unstyled">
-                            {% for option in q.choice_set.all %}
-                            <li><input type="radio" name="{{ q.id }}" value="{{ option }}"> {{ option }}</li>
-                            {% endfor %}
-                        </ol>
-                        {% endfor %}
-                
-                <button type="submit" class="btn btn-sm btn-outline-info">Save</button>
+                {% for q in questions %}
+                <h5>{{ page_num }}. {{ q.text }}</h5>
+                <form action="" method='POST'>
+                    {% csrf_token %}
+                    {% for choice in q.choice_set.all %}
+                    <input type="radio" id="choice{{ forloop.counter }}" name="choice" value="{{ choice.id }}">
+                    <label for="choice{{ forloop.counter }}">{{ choice }}</label>
+                    <br>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-sm btn-outline-info">Next</button>
                 </form>
+                {% endfor %}
 
                 <div class="pt-2">
                     <ol class="pagination pagination-sm">
@@ -48,7 +46,7 @@
             </div>
         </div>
     </div>
-<!-- </div>--> 
-</div> 
+    <!-- </div>-->
+</div>
 
 {% endblock %}

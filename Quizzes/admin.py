@@ -3,7 +3,10 @@ from .models import Course, Question, Choice
 
 # Register your models here.
 
-admin.site.register(Course)
+# admin.site.register(Course)
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    pass
 
 
 class ChoiceInline(admin.TabularInline):
