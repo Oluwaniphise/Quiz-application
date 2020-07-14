@@ -40,8 +40,12 @@ def course_quiz(request, course_title):
         page_obj = paginator.page(page_num)
     except EmptyPage:
         page_obj = paginator.page(1)
-    user_choice = request.POST.get('q.id')
-    print(user_choice)
+    # user_choice = request.POST.get('q.id')
+    # print(user_choice)
+    for q in question:
+        user_choice = request.POST.get('{{q.id}}')
+        print(user_choice)
+
 
     context = {
         'user': current_user, 'course': course, 
