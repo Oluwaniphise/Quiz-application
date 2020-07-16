@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from .models import Question, Choice, Course
+from .models import Question, Choice, Course, UserChoice
 from django.core.paginator import Paginator, EmptyPage
 
 # for the courses list
@@ -31,7 +31,7 @@ def course_quiz(request, course_title):
     """
     current_user = request.user
     course = Course.objects.get(title=course_title) # get the course from the course_id
-    questions = course.question_set.all() # get the questions through course
+    questions = course.question_set.all().order_by('id') # get the questions through course
     
     #for the page pagination
     paginator = Paginator(questions, 1)
@@ -43,22 +43,35 @@ def course_quiz(request, course_title):
 
     # for the user selection
     try:
-        ## find a way to get the current question from the page or pagination
-        # user_choice = question.choice_set.get(pk=request.POST['choice']) 
-        ## save the user's choice
-        pass
+        ## find a way to get the current question from the pagination's page
+        question = page_obj.object_list.get() # object list contains the objects in the page
+        user_choice = question.choice_set.get(pk=request.POST['choice']) 
+        print(user_choice)
+        # check if the user's choice is correct, then, save the user's choice
+        is_correct = Choice.objects.get(question=question, choice_text=user_choice).answer
+        save_user_choice = UserChoice(
+            user=request.user,
+            user_choice=user_choice,
+            is_correct=is_correct,
+        )
+        save_user_choice.save()
+        ## proceed to the next question
+        page_num = page_obj.next_page_number
+        # page_obj = paginator.page(page_num) 
     except (KeyError, Choice.DoesNotExist):
         # Display the question form again
         # this may be buggy as it's not tested.
-        return render(request, 'Quiz/course-detail.html', {
-            'question': page_obj,
+        return render(request, 'Quiz/course-quiz.html', {
+            'user': current_user, 'course': course,
+            'questions': page_obj, 'paginator': paginator,
+            'page_num': page_num,
             'error_message': "Try selecting an option!",
         })
 
     context = {
         'user': current_user, 'course': course, 
         'questions':page_obj, 'paginator':paginator, 
-        'page_num':int(page_num)
+        'page_num':page_num
     }
     return render(request, 'Quiz/course-quiz.html', context)
 

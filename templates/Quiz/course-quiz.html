@@ -38,7 +38,7 @@
                     <ol class="pagination pagination-sm">
                         {% for i in paginator.page_range %}
                         <li class="page-item {% if i == page_num  %} active {% endif %}">
-                            <a href="?page={{i}}" class="page-link">{{i}}</a>
+                            <a href="?page={{i}}" class="page-link">{{ i }}</a>
                         </li>
                         {% endfor %}
                     </ol>
@@ -48,5 +48,4 @@
     </div>
     <!-- </div>-->
 </div>
-
 {% endblock %}
