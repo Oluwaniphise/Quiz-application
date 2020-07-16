@@ -25,7 +25,7 @@ SECRET_KEY = '3kfjdlsj8lsdfjlskfjlaj8skdfjsdfl*382kd'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'your-quiz-test.herokuapp.com']
 # ALLOWED_HOSTS = tuple(env.str('ALLOWED_HOSTS', default=[]))
