@@ -31,7 +31,7 @@ def course_quiz(request, course_title):
     """
     current_user = request.user
     course = Course.objects.get(title=course_title) # get the course from the course_id
-    questions = course.question_set.all() # get the questions through course
+    questions = course.question_set.all().order_by('id') # get the questions through course
     
     #for the page pagination
     paginator = Paginator(questions, 1)
@@ -43,14 +43,10 @@ def course_quiz(request, course_title):
 
     # for the user selection
     try:
-        # question = request.GET.get('page')
-
-        #  find a way to get the current question from the page or pagination
-        # user_choice = question.choice_set.get(pk=request.POST['choice']) 
-        # save the user's choice
-        # print(user_choice)
+        question = page_obj.object_list.get()
+        user_choice = question.choice_set.get(pk=request.POST['choice'])
+        print(user_choice)
         
-        pass
     except (KeyError, Choice.DoesNotExist):
         # Display the question form again
         # this may be buggy as it's not tested.
