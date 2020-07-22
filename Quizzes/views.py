@@ -50,10 +50,9 @@ def course_quiz(request, course_title):
         save_user_choice = UserChoice(user=request.user, user_choice=user_choice, is_correct=is_correct, question=question)
         save_user_choice.save()
         # get the score of the user in each course and save
-        user_score = UserChoice.objects.filter(is_correct=True, user=request.user)
-        user_course_score = Course.objects.filter(title=course_title).user_score
-        save_user_course_score = UserScore(user=request.user, user_score=user_score)
-        save_user_course_score.save()
+        user_score = UserChoice.objects.filter(is_correct=True, user=request.user).count()
+        save_user_score = UserScore(user=request.user, user_score=user_score)
+        save_user_score.save()
      
     except(KeyError, Choice.DoesNotExist):
         return render(request, 'Quiz/course-quiz.html', {
@@ -67,7 +66,7 @@ def course_quiz(request, course_title):
     context = {
         'user': current_user, 'course': course, 
         'questions':page_obj, 'paginator':paginator, 
-        'page_num':int(page_num), #'user_score':user_score
+        'page_num':int(page_num), 'user_score':user_score
     }
     return render(request, 'Quiz/course-quiz.html', context)
 
