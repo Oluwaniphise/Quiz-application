@@ -34,8 +34,13 @@ class UserChoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
     is_correct = models.BooleanField()
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
     def __str__(self):
         return "{0} is {1}".format(self.user_choice, self.is_correct)
+
+class UserScore(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_score = models.IntegerField()
 
 

@@ -10,18 +10,21 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      text-align: center;
     }
   </style>
 </head>
 
 {% if request.user.is_authenticated  %}
 <div class="container">
-  <p>Hello, {{request.user.username}}</p>
+<div class="card">
+  <div class="card-body">
+    <p>Hello, {{request.user.username}}</p>
   <p>Welcome! You can now take your test.</p>
-  <p><a class='btn btn-md btn-success' href="{% url 'courses-list' %}">Click here to choose
+  <p><a class='btn btn-md btn-success' href="{% url 'courses-list' %}">Click here to choose</a></p>
 
-
-    </a></p>
+</div>
+</div>
 </div>
 {% endif %}
 {% endblock %}
