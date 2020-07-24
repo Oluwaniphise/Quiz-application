@@ -1,12 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
-# Subject model is redundant for now, course question and choice should do...
 
-"""
-
-"""
 
 class Course(models.Model):
     title = models.CharField(max_length=50)
@@ -25,6 +20,7 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=100)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     answer = models.BooleanField(default=False)
 
     def __str__(self):
@@ -33,6 +29,7 @@ class Choice(models.Model):
 class UserChoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     is_correct = models.BooleanField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
@@ -41,6 +38,9 @@ class UserChoice(models.Model):
 
 class UserScore(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     user_score = models.IntegerField()
+    def __str__(self):
+        return "{0}, {1}".format(self.user, self.course)
 
 

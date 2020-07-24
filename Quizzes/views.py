@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from .models import Question, Choice, Course, UserChoice, UserScore
 from django.core.paginator import Paginator, EmptyPage
+from django.contrib.auth.decorators import login_required
 
 # for the courses list
+
+@login_required
 def courses_list(request):
     all_course = Course.objects.all()
     context = {
@@ -13,6 +16,8 @@ def courses_list(request):
 
 
 #for the courses detail
+
+@login_required
 def course_detail(request, course):
     current_user = request.user
     course = Course.objects.get(title=course)
@@ -23,6 +28,8 @@ def course_detail(request, course):
 
 
 #for the courses quiz
+
+@login_required
 def course_quiz(request, course_title):
     """
     site_url/{{course}}/questions/
@@ -47,11 +54,14 @@ def course_quiz(request, course_title):
         user_choice = question.choice_set.get(pk=request.POST['choice'])
         # check if user's choice is correct, save
         is_correct = Choice.objects.get(question=question, choice_text=user_choice).answer
-        save_user_choice = UserChoice(user=request.user, user_choice=user_choice, is_correct=is_correct, question=question)
+        save_user_choice = UserChoice(user=request.user, user_choice=user_choice, is_correct=is_correct, question=question,course=course_title)
         save_user_choice.save()
         # get the score of the user in each course and save
-        user_score = UserChoice.objects.filter(is_correct=True, user=request.user).count()
-        save_user_score = UserScore(user=request.user, user_score=user_score)
+        # user_score = UserChoice.objects.filter(is_correct=True, user=request.user).count()
+        # save_user_score = UserScore(user=request.user, user_score=user_score)
+        # save_user_score.save()
+        user_score = UserChoice.objects.filter(is_correct=True).count()
+        save_user_score = UserScore(user=request.user, user_score=user_score, course=course)
         save_user_score.save()
      
     except(KeyError, Choice.DoesNotExist):
