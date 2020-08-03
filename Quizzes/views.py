@@ -53,16 +53,14 @@ def course_quiz(request, course_title):
         question = page_obj.object_list.get()
         user_choice = question.choice_set.get(pk=request.POST['choice'])
         # check if user's choice is correct, save
-        is_correct = Choice.objects.get(question=question, choice_text=user_choice).answer
-        save_user_choice = UserChoice(user=request.user, user_choice=user_choice, is_correct=is_correct, question=question,course=course_title)
+        is_correct = Choice.objects.get(question=question, choice_text=user_choice, course=course_title).answer
+        save_user_choice = UserChoice(user=request.user, user_choice=user_choice, is_correct=is_correct, question=question )
         save_user_choice.save()
+        
         # get the score of the user in each course and save
-        # user_score = UserChoice.objects.filter(is_correct=True, user=request.user).count()
-        # save_user_score = UserScore(user=request.user, user_score=user_score)
-        # save_user_score.save()
+       
         user_score = UserChoice.objects.filter(is_correct=True).count()
-        save_user_score = UserScore(user=request.user, user_score=user_score, course=course)
-        save_user_score.save()
+        print(user_score)
      
     except(KeyError, Choice.DoesNotExist):
         return render(request, 'Quiz/course-quiz.html', {
@@ -76,7 +74,7 @@ def course_quiz(request, course_title):
     context = {
         'user': current_user, 'course': course, 
         'questions':page_obj, 'paginator':paginator, 
-        'page_num':int(page_num), 'user_score':user_score
+        'page_num':int(page_num), 'user_score':user_score,
     }
     return render(request, 'Quiz/course-quiz.html', context)
 

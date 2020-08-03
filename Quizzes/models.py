@@ -14,13 +14,15 @@ class Course(models.Model):
 class Question(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     text = models.TextField(max_length=100)
+    class Meta:
+        ordering = ['course']
     def __str__(self):
         return self.text
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=100)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     answer = models.BooleanField(default=False)
 
     def __str__(self):
@@ -43,4 +45,6 @@ class UserScore(models.Model):
     def __str__(self):
         return "{0}, {1}".format(self.user, self.course)
 
+    
 
+    

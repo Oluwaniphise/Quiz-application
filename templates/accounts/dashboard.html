@@ -19,8 +19,9 @@
 <div class="container">
 <div class="card">
   <div class="card-body">
-    <p>Hello, {{request.user.username}}</p>
-  <p>Welcome! You can now take your test.</p>
+
+    <p><i class="fa fa-user-circle fa-3x"></i></p>
+    <p>Hello {{request.user.username}}!</p>
   <p><a class='btn btn-md btn-success' href="{% url 'courses-list' %}">Click here to choose</a></p>
 
 </div>

@@ -18,25 +18,30 @@
                     <br>
                     {% endfor %}
                     <button type="submit" class="btn btn-sm btn-outline-info">Next</button>
-                    
                 </form>
+
+
                 {% endfor %}
 
                 <div class="pt-2">
                     <ol class="pagination pagination-sm">
                         {% for i in paginator.page_range %}
                         <li class="page-item {% if i == page_num  %} active {% endif %}">
-                           
+
+
                             <a href="?page={{i}}" class="page-link">{{i}}</a>
-                            
+
                         </li>
                         {% endfor %}
                     </ol>
                 </div>
-                {{user_score}}
+                <p> Your Score for BIO101 is: {{user_score}}</p>
             </div>
+
+
+
         </div>
-       
+
     </div>
     <!-- </div>-->
 </div>

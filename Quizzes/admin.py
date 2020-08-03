@@ -1,15 +1,11 @@
 from django.contrib import admin
-from .models import Course, Question, Choice, UserChoice, UserScore
+from .models import Course, Question, Choice, UserScore, UserChoice
 
 admin.site.register(UserChoice)
 admin.site.register(UserScore)
+admin.site.register(Course)
 
 
-
-# admin.site.register(Course)
-@admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
-    pass
 
 
 class ChoiceInline(admin.TabularInline):
