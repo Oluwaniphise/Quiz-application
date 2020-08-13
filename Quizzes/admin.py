@@ -4,16 +4,10 @@ from .models import Course, Question, Choice
 # Register your models here.
 
 admin.site.register(Course)
-admin.site.register(UserChoice)
-
-
-
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 2
-
-
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):

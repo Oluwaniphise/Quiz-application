@@ -23,18 +23,6 @@
 
 
 <div class="container">
-       <div class="col-md-6">
-        <h5 class="text-center">Enter your log in credentials</h5>
-           <div class="card">
-             
-               <div class="card-body">
-           <form action="{% url 'login'  %}" method="POST">
-               {% csrf_token %}
-           <div class="form-group">
-               <label for="username">Username</label>
-               <input class="form-control" type="text" name="username" placeholder="Username">
-           </div>
-           <div class="form-group">
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
@@ -59,5 +47,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}

@@ -12,6 +12,15 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(list, [])
+)
+
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,14 +30,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3kfjdlsj8lsdfjlskfjlaj8skdfjsdfl*382kd'
+# SECRET_KEY = '3kfjdlsj8lsdfjlskfjlaj8skdfjsdfl*382kd'
+SECRET_KEY = env('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'your-quiz-test.herokuapp.com']
-# ALLOWED_HOSTS = tuple(env.str('ALLOWED_HOSTS', default=[]))
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'your-quiz-test.herokuapp.com']
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 # Application definition
 
@@ -81,8 +91,12 @@ WSGI_APPLICATION = 'Quizapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': env('DB_HOST'),
+        'USER': env('DB_USER'),
+        'NAME': env('DB_NAME'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'PORT': env('DB_PORT')
     }
 }
 

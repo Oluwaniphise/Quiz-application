@@ -4,6 +4,8 @@ from .models import Question, Choice, Course, UserChoice
 from django.core.paginator import Paginator, EmptyPage
 
 # for the courses list
+
+
 def courses_list(request):
     all_course = Course.objects.all()
     context = {
@@ -12,7 +14,7 @@ def courses_list(request):
     return render(request, 'Quiz/course-list.html', context)
 
 
-#for the courses detail
+# for the courses detail
 def course_detail(request, course):
     current_user = request.user
     course = Course.objects.get(title=course)
@@ -22,7 +24,7 @@ def course_detail(request, course):
     return render(request, 'Quiz/course-detail.html', context)
 
 
-#for the courses quiz
+# for the courses quiz
 def course_quiz(request, course_title):
     """
     site_url/{{course}}/questions/
@@ -30,10 +32,12 @@ def course_quiz(request, course_title):
     Render them in context
     """
     current_user = request.user
-    course = Course.objects.get(title=course_title) # get the course from the course_id
-    questions = course.question_set.all().order_by('id') # get the questions through course
-    
-    #for the page pagination
+    # get the course from the course_id
+    course = Course.objects.get(title=course_title)
+    questions = course.question_set.all().order_by(
+        'id')  # get the questions through course
+
+    # for the page pagination
     paginator = Paginator(questions, 1)
     page_num = request.GET.get('page', 1)
     try:
@@ -43,21 +47,24 @@ def course_quiz(request, course_title):
 
     # for the user selection
     try:
-        ## find a way to get the current question from the pagination's page
-        question = page_obj.object_list.get() # object list contains the objects in the page
-        user_choice = question.choice_set.get(pk=request.POST['choice']) 
+        # find a way to get the current question from the pagination's page
+        # object list contains the objects in the page
+        question = page_obj.object_list.get()
+        user_choice = question.choice_set.get(pk=request.POST['choice'])
         print(user_choice)
-        # check if the user's choice is correct, then, save the user's choice
-        is_correct = Choice.objects.get(question=question, choice_text=user_choice).answer
+        # save the user's choice
+        is_correct = Choice.objects.get(
+            question=question, choice_text=user_choice, course=course).answer
         save_user_choice = UserChoice(
             user=request.user,
             user_choice=user_choice,
             is_correct=is_correct,
+            course=course
         )
         save_user_choice.save()
-        ## proceed to the next question
+        # proceed to the next question
         page_num = page_obj.next_page_number
-        # page_obj = paginator.page(page_num) 
+        # page_obj = paginator.page(page_num)
     except (KeyError, Choice.DoesNotExist):
         # Display the question form again
         # this may be buggy as it's not tested.
@@ -69,12 +76,8 @@ def course_quiz(request, course_title):
         })
 
     context = {
-        'user': current_user, 'course': course, 
-        'questions':page_obj, 'paginator':paginator, 
-        'page_num':page_num
+        'user': current_user, 'course': course,
+        'questions': page_obj, 'paginator': paginator,
+        'page_num': page_num
     }
     return render(request, 'Quiz/course-quiz.html', context)
-
-
-
-
