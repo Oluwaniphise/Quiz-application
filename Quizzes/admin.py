@@ -5,9 +5,11 @@ from .models import Course, Question, Choice
 
 admin.site.register(Course)
 
+
 class ChoiceInline(admin.TabularInline):
     model = Choice
-    extra = 2
+    extra = 4
+
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):

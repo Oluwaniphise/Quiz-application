@@ -36,11 +36,24 @@
 
                 <div class="pt-2">
                     <ol class="pagination pagination-sm">
+                        {% if questions.has_previous %}
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ questions.paginator.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                        {% endif %}
                         {% for i in paginator.page_range %}
                         <li class="page-item {% if i == page_num  %} active {% endif %}">
                             <a href="?page={{i}}" class="page-link">{{ i }}</a>
                         </li>
                         {% endfor %}
+                        {% if page.has_next %}
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ questions.paginator.next_page_number }}">&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                        {% endif %}
                     </ol>
                 </div>
             </div>

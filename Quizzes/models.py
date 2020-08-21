@@ -27,7 +27,7 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=50)
-    is_correct = models.BooleanField(default=False, null=True, blank=True)
+    is_correct = models.BooleanField(default=False)
 
     def __str__(self):
         return self.choice_text
@@ -36,8 +36,15 @@ class Choice(models.Model):
 class UserChoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    user_choice = models.ForeignKey(
+        Choice, on_delete=models.CASCADE, blank=True)
     is_correct = models.BooleanField(null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['question_id', 'user_id'], name='unique_userchoice')
+        ]
 
     def __str__(self):
         return "{0} is {1}".format(self.user_choice, self.is_correct)
