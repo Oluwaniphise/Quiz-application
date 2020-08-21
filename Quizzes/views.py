@@ -42,8 +42,10 @@ def course_quiz(request, course_title):
     page_num = request.GET.get('page', 1)
     try:
         page_obj = paginator.page(page_num)
-    except EmptyPage:
+    except PageNotAnInteger:
         page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
 
     # for the user selection
     try:
@@ -51,19 +53,21 @@ def course_quiz(request, course_title):
         # object list contains the objects in the page
         question = page_obj.object_list.get()
         user_choice = question.choice_set.get(pk=request.POST['choice'])
-        print(user_choice)
+
         # save the user's choice
         is_correct = Choice.objects.get(
-            question=question, choice_text=user_choice, course=course).answer
-        save_user_choice = UserChoice(
+            question=question, choice_text=user_choice).is_correct
+        save_user_choice = UserChoice.objects.update_or_create(
             user=request.user,
+            question=question,
             user_choice=user_choice,
             is_correct=is_correct,
-            course=course
         )
-        save_user_choice.save()
+        
         # proceed to the next question
-        page_num = page_obj.next_page_number
+        print(page_num)
+        page_num = page_obj.next_page_number()
+        print(page_num)
         # page_obj = paginator.page(page_num)
     except (KeyError, Choice.DoesNotExist):
         # Display the question form again
